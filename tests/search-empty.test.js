@@ -3,10 +3,10 @@ const assert = require("assert");
 const { getDriver } = require("./hooks");
 const { acceptCookiesIfPresent } = require("./setup");
 
-describe("OLX.ba Search", function () {
+describe("OLX.ba Search - Empty input", function () {
   this.timeout(30000);
 
-  it("Should search for cars on OLX.ba", async function () {
+  it("Should handle empty search without crashing", async function () {
     const driver = getDriver();
 
     await driver.get("https://www.olx.ba");
@@ -25,17 +25,13 @@ describe("OLX.ba Search", function () {
     );
 
     await searchInput.click();
-    await searchInput.sendKeys("auto", Key.ENTER);
-
-    await driver.wait(
-      until.urlContains("olx.ba"),
-      10000
-    );
+    await searchInput.sendKeys(Key.ENTER);
 
     const currentUrl = await driver.getCurrentUrl();
+
     assert.ok(
       currentUrl.includes("olx.ba"),
-      "Application crashed or navigated away on valid search"
+      "Application crashed or navigated away on empty search"
     );
   });
 });

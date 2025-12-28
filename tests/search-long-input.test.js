@@ -3,19 +3,17 @@ const assert = require("assert");
 const { getDriver } = require("./hooks");
 const { acceptCookiesIfPresent } = require("./setup");
 
-describe("OLX.ba Search", function () {
+describe("OLX.ba Search - Long input (Boundary)", function () {
   this.timeout(30000);
 
-  it("Should search for cars on OLX.ba", async function () {
+  it("Should handle search with very long input", async function () {
     const driver = getDriver();
 
     await driver.get("https://www.olx.ba");
     await acceptCookiesIfPresent(driver);
 
     const searchInput = await driver.wait(
-      until.elementLocated(
-        By.css('input[placeholder*="Pretra"]')
-      ),
+      until.elementLocated(By.css('input[placeholder*="Pretra"]')),
       10000
     );
 
@@ -24,18 +22,15 @@ describe("OLX.ba Search", function () {
       searchInput
     );
 
-    await searchInput.click();
-    await searchInput.sendKeys("auto", Key.ENTER);
+    const longInput = "a".repeat(120);
 
-    await driver.wait(
-      until.urlContains("olx.ba"),
-      10000
-    );
+    await searchInput.click();
+    await searchInput.sendKeys(longInput, Key.ENTER);
 
     const currentUrl = await driver.getCurrentUrl();
     assert.ok(
       currentUrl.includes("olx.ba"),
-      "Application crashed or navigated away on valid search"
+      "Application crashed or navigated away on long input search"
     );
   });
 });

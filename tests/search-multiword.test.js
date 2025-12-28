@@ -3,10 +3,10 @@ const assert = require("assert");
 const { getDriver } = require("./hooks");
 const { acceptCookiesIfPresent } = require("./setup");
 
-describe("OLX.ba Search", function () {
+describe("OLX.ba Search - Multiple words", function () {
   this.timeout(30000);
 
-  it("Should search for cars on OLX.ba", async function () {
+  it("Should handle search with multiple words", async function () {
     const driver = getDriver();
 
     await driver.get("https://www.olx.ba");
@@ -25,17 +25,12 @@ describe("OLX.ba Search", function () {
     );
 
     await searchInput.click();
-    await searchInput.sendKeys("auto", Key.ENTER);
-
-    await driver.wait(
-      until.urlContains("olx.ba"),
-      10000
-    );
+    await searchInput.sendKeys("audi a4", Key.ENTER);
 
     const currentUrl = await driver.getCurrentUrl();
     assert.ok(
       currentUrl.includes("olx.ba"),
-      "Application crashed or navigated away on valid search"
+      "Application crashed or navigated away on multi-word search"
     );
   });
 });

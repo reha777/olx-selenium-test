@@ -1,21 +1,13 @@
-const { Builder } = require("selenium-webdriver");
-require("chromedriver");
-
-let driver;
-
-before(async function () {
-  this.timeout(30000); // ⏱ Mocha timeout
-  driver = await new Builder().forBrowser("chrome").build();
-  await driver.manage().setTimeouts({ implicit: 10000 });
-});
-
-after(async function () {
-  this.timeout(30000); // ⏱ Mocha timeout
-  if (driver) {
-    await driver.quit();
-  }
-});
+async function acceptCookiesIfPresent(driver) {
+  try {
+    await driver.executeScript(`
+      const el = document.querySelector('.qc-cmp-cleanslate');
+      if (el) el.remove();
+      document.body.style.overflow = 'auto';
+    `);
+  } catch (e) {}
+}
 
 module.exports = {
-  getDriver: () => driver,
+  acceptCookiesIfPresent,
 };
