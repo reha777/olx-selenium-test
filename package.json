@@ -1,0 +1,19 @@
+{
+  "name": "olx-selenium-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chromedriver": "^143.0.3",
+    "selenium-webdriver": "^4.39.0"
+  },
+  "devDependencies": {
+    "mocha": "^11.7.5"
+  }
+}
